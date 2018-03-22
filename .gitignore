@@ -10,3 +10,4 @@ vendor/gems/*
 .*.sw*
 Gemfile.lock
 *.ods#
+public/bower_components
