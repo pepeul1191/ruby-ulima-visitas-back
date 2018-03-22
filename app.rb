@@ -1,6 +1,6 @@
 require 'sinatra/base'
 require 'json'
-#require_relative 'config/routes'
+require_relative 'config/routes'
 #require_relative 'config/models'
 
 class MyApp < Sinatra::Base
