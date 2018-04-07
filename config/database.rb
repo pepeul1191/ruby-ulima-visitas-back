@@ -1,6 +1,5 @@
-require 'sequel'
-require 'sqlite3'
+require 'mongo_mapper'
+require 'activemodel-serializers-xml'
 
-Sequel::Model.plugin :json_serializer
-
-DB = Sequel.connect('sqlite://db/ubicaciones.db')
+MongoMapper.connection = Mongo::Connection.new('127.0.0.1')
+MongoMapper.database = 'eventos'
