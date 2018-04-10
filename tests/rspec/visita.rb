@@ -61,7 +61,7 @@ def editar
         expect(test.response.code).to eq(200)
       end
       it '2.2 Editar visita' do
-        id = '5acccc29ef09513f1c000001'
+        id = '5accd06cef09514fa8000001'
         visitante = {
           :dni => '70241720',
           :nombres => 'José Jesús PPPP',
@@ -139,6 +139,6 @@ def eliminar
   end
 end
 
-#editar
+editar
 #crear
-eliminar
+#eliminar

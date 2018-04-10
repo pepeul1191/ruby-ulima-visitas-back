@@ -1,6 +1,5 @@
-# Boilerplate Ruby Sinatra - SQLite3
+# Visitas Ruby Sinatra - MongoDB
 
-Basado en boilerplate wixel de Sinatra.
 
 ### Antes de usar
 
@@ -10,35 +9,15 @@ Basado en boilerplate wixel de Sinatra.
 
   +
 
-### Migraciones
+### Backup y Restore la Base de Datos Mongo
 
-Ejecutar migración
+Para realizar un backup de un base de datos incluyendo los stored functions.
 
-    $ sequel -m path/to/migrations postgres://host/database
-    $ sequel -m path/to/migrations sqlite://db/ubicaciones.db
-    $ sequel -m path/to/migrations mysql://root:123@localhost/ubicaciones
+    $ mongodump --db visitas --out db
 
-Ejecutar el 'down' de las migraciones de la última a la primera:
+Para restaurar
 
-    $ sequel -m db/migrations -M 0 mysql://root:123@localhost/ubicaciones
-    $ sequel -m db/migrations -M 0 sqlite://db/ubicaciones.db
-
-Ejecutar el 'up' de las migraciones hasta un versión especifica:
-
-    $ sequel -m db/migrations -M #version mysql://root:123@localhost/ubicaciones
-    $ sequel -m db/migrations -M #version sqlite://db/ubicaciones.db
-
-Tipos de Datos de Columnas
-
-+ :string=>String
-+ :integer=>Integer
-+ :date=>Date
-+ :datetime=>[Time, DateTime].freeze,
-+ :time=>Sequel::SQLTime,
-+ :boolean=>[TrueClass, FalseClass].freeze,
-+ :float=>Float
-+ :decimal=>BigDecimal
-+ :blob=>Sequel::SQL::Blob
+    $ mongorestore -d visitas db/visitas
 
 # Fuentes:
 
