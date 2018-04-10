@@ -101,4 +101,44 @@ def editar
   end
 end
 
-editar
+def eliminar
+  RSpec.describe App do
+    describe '3. Eliminar visitas: ' do
+      it '3.1 Conexión con backend' do
+        url = 'test/conexion'
+        test = App.new(url)
+        test.get()
+        expect(test.response.code).to eq(200)
+      end
+      it '3.2 Eliminar visitas' do
+        data = {
+          :nuevos => [
+          ],
+          :editados => [
+          ],
+          :eliminados => [
+            '5acccbd6ef09513d1f000001',
+            '5acccc07ef09513dec000001',
+            '5acccc13ef09513e4e000001',
+            '5acccc1aef09513eae000001',
+            '5acccc29ef09513f1c000001',
+            '5acccc3eef09513f9b000001',
+            '5acccc52ef09514019000001',
+          ]
+        }.to_json
+        url = 'visita/guardar?data=' + data
+        test = App.new(url)
+        test.post()
+        puts test.response.body
+        expect(test.response.code).to eq(200)
+        expect(test.response.body).not_to include('error')
+        expect(test.response.body).to include('Se ha registrado los cambios en las visitas')
+        expect(test.response.body).to include('success')
+      end
+    end
+  end
+end
+
+#editar
+#crear
+eliminar

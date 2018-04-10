@@ -86,4 +86,41 @@ class MyApp < Sinatra::Base
         }.to_json
     end
   end
+
+  post '/visita/guardar' do
+    data = JSON.parse(params[:data])
+    eliminados = data['eliminados']
+    rpta = []
+    array_nuevos = []
+    error = false
+    execption = nil
+    begin
+     if eliminados.length != 0
+       EmpleadoVisitante.destroy(eliminados)
+     end
+    rescue Exception => e
+     error = true
+     execption = e
+    end
+    if error == false
+     return  {
+       :tipo_mensaje => 'success',
+       :mensaje =>
+          [
+            'Se ha registrado los cambios en las visitas',
+            array_nuevos
+          ]
+      }.to_json
+    else
+     status 500
+     return {
+       :tipo_mensaje => 'error',
+       :mensaje =>
+         [
+           'Se ha producido un error en guardar la colección de visitas',
+           execption.message
+         ]
+       }.to_json
+    end
+  end
 end
