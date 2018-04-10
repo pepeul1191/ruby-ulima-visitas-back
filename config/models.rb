@@ -40,8 +40,8 @@ class EmpleadoVisitante
   include ::ActiveModel::Serializers::JSON
   include MongoMapper::Document
 
-  one :empleados
-  one :Visitantes
+  one :empleado
+  one :visitante
   key :movito, String
   key :dia, Time
   key :hora, Time

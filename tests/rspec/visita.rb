@@ -1,3 +1,7 @@
+# encoding: utf-8
+require_relative 'app'
+require 'json'
+
 def crear
   RSpec.describe App do
     describe '1. Crear visita: ' do
@@ -37,9 +41,7 @@ def crear
         url = 'visita/crear?visitante=' + visitante + '&contacto=' + contacto + '&visita=' + visita
         test = App.new(url)
         test.post()
-        if test.response.code != 200 then
-          puts test.response.body
-        end
+        puts test.response.body
         expect(test.response.code).to eq(200)
         expect(test.response.body).not_to include('error')
         expect(test.response.body).to include('Se ha registrado la visita')
@@ -48,3 +50,5 @@ def crear
     end
   end
 end
+
+crear
