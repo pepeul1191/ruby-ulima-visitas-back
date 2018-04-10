@@ -1,6 +1,47 @@
 class MyApp < Sinatra::Base
   get '/visita/listar' do
-    #TODO
+    rpta = Array.new
+    error = false
+    execption = nil
+    begin
+      empleados_visitas = EmpleadoVisitante.all
+      empleados_visitas.each do |empleado_visita|
+        temp = Hash.new
+        _id = empleado_visita._id.to_s
+        empleado = empleado_visita.empleado.paterno + ' ' + empleado_visita.empleado.materno + ', ' + empleado_visita.empleado.nombres
+        dni_visitante = empleado_visita.visitante.dni
+        visitante = empleado_visita.visitante.paterno + ' ' + empleado_visita.visitante.materno + ', ' + empleado_visita.visitante.nombres
+        dia = empleado_visita.dia
+        hora = empleado_visita.hora
+        motivo = empleado_visita.motivo
+        temp['_id'] = _id
+        temp['empleado'] = empleado
+        temp['dni_visitante'] = dni_visitante
+        temp['visitante'] = visitante
+        temp['dia'] = dia
+        temp['hora'] = hora
+        temp['motivo'] = motivo
+        rpta.push(temp)
+      end
+      rpta.to_json
+    rescue Exception => e
+      error = true
+      execption = e
+    end
+    if error == false
+      return rpta.to_json
+    else
+      status 500
+      puts execption.backtrace
+      return {
+        :tipo_mensaje => 'error',
+        :mensaje =>
+          [
+            'Se ha producido un error en listar la visitas',
+            execption.message
+          ]
+        }.to_json
+    end
   end
 
   post '/visita/crear' do
@@ -14,8 +55,8 @@ class MyApp < Sinatra::Base
       empleado_visita = EmpleadoVisitante.create(
         :empleado => contacto,
         :visitante => visitante,
-        :movito => visita['motivo'],
-        :dia => visita['hora_inicio'],
+        :motivo => visita['motivo'],
+        :dia => visita['dia'],
         :hora => visita['hora'],
         :creacion => Time.new,
       )
@@ -58,9 +99,10 @@ class MyApp < Sinatra::Base
       empleado_visita = EmpleadoVisitante.find(BSON::ObjectId.from_string(id))
       empleado_visita.empleado = contacto
       empleado_visita.visitante = visitante
-      empleado_visita.movito = visita['motivo']
+      empleado_visita.motivo = visita['motivo']
       empleado_visita.dia = visita['hora_inicio']
       empleado_visita.hora = visita['hora']
+      empleado_visita.dia = visita['dia']
       empleado_visita.save
     rescue Exception => e
       error = true

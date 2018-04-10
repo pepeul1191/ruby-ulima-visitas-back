@@ -42,8 +42,8 @@ class EmpleadoVisitante
 
   one :empleado
   one :visitante
-  key :movito, String
+  key :motivo, String
   key :dia, Time
-  key :hora, Time
+  key :hora, String
   key :creacion, Time
 end

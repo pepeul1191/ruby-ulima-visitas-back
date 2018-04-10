@@ -61,7 +61,7 @@ def editar
         expect(test.response.code).to eq(200)
       end
       it '2.2 Editar visita' do
-        id = '5accd06cef09514fa8000001'
+        id = '5accd727ef0951662d000001'
         visitante = {
           :dni => '70241720',
           :nombres => 'José Jesús PPPP',
@@ -139,6 +139,35 @@ def eliminar
   end
 end
 
-editar
+def listar
+  RSpec.describe App do
+    describe '4. Listar visitas: ' do
+      it '4.1 Conexión con backend' do
+        url = 'test/conexion'
+        test = App.new(url)
+        test.get()
+        expect(test.response.code).to eq(200)
+      end
+      it '4.2 Listar visitas' do
+        url = 'visita/listar'
+        test = App.new(url)
+        test.get()
+        puts test.response.body
+        expect(test.response.code).to eq(200)
+        expect(test.response.body).not_to include('error')
+        expect(test.response.body).to include('_id')
+        expect(test.response.body).to include('empleado')
+        expect(test.response.body).to include('visitante')
+        expect(test.response.body).to include('dni_visitante')
+        expect(test.response.body).to include('dia')
+        expect(test.response.body).to include('hora')
+        expect(test.response.body).to include('motivo')
+      end
+    end
+  end
+end
+
+#editar
 #crear
 #eliminar
+listar
