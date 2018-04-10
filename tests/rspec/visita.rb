@@ -155,7 +155,7 @@ def listar
         puts test.response.body
         expect(test.response.code).to eq(200)
         expect(test.response.body).not_to include('error')
-        expect(test.response.body).to include('_id')
+        expect(test.response.body).to include('id')
         expect(test.response.body).to include('empleado')
         expect(test.response.body).to include('visitante')
         expect(test.response.body).to include('dni_visitante')

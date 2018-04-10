@@ -14,7 +14,7 @@ class MyApp < Sinatra::Base
         dia = empleado_visita.dia
         hora = empleado_visita.hora
         motivo = empleado_visita.motivo
-        temp['_id'] = _id
+        temp['id'] = _id
         temp['empleado'] = empleado
         temp['dni_visitante'] = dni_visitante
         temp['visitante'] = visitante
@@ -24,6 +24,33 @@ class MyApp < Sinatra::Base
         rpta.push(temp)
       end
       rpta.to_json
+    rescue Exception => e
+      error = true
+      execption = e
+    end
+    if error == false
+      return rpta.to_json
+    else
+      status 500
+      puts execption.backtrace
+      return {
+        :tipo_mensaje => 'error',
+        :mensaje =>
+          [
+            'Se ha producido un error en listar la visitas',
+            execption.message
+          ]
+        }.to_json
+    end
+  end
+
+  get '/visita/obtener/:visita_id' do
+    rpta = nil
+    error = false
+    execption = nil
+    begin
+      id = params['visita_id']
+      rpta = EmpleadoVisitante.find(BSON::ObjectId.from_string(id))
     rescue Exception => e
       error = true
       execption = e
