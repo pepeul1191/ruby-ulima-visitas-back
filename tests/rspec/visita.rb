@@ -51,4 +51,54 @@ def crear
   end
 end
 
-crear
+def editar
+  RSpec.describe App do
+    describe '2. Editar visita: ' do
+      it '2.1 Conexión con backend' do
+        url = 'test/conexion'
+        test = App.new(url)
+        test.get()
+        expect(test.response.code).to eq(200)
+      end
+      it '2.2 Editar visita' do
+        id = '5acccc29ef09513f1c000001'
+        visitante = {
+          :dni => '70241720',
+          :nombres => 'José Jesús PPPP',
+          :paterno => 'Valdivia PPPP',
+          :materno => 'Caballero PPPP',
+          :telefono => '9887731975',
+          :correos => 'pepito@ulima.pe',
+          :placa => 'B6Q-388 adfadf',
+          :vehiculo => 'Hyundai Accent 2018',
+        }.to_json
+        contacto = {
+          :dni => 'Biopolímero a partir del almidón de papaya',
+          :empleado_id => 2,
+          :codigo_empleado => 1,
+          :nombres => 'Karry Felix',
+          :paterno => 'Mickleburgh',
+          :materno => 'XD',
+          :cargo => 'Secretaria',
+          :telefon => '987731000',
+          :correo => 'KaMick@ulima.pe',
+        }.to_json
+        visita = {
+          :motivo => 'Biopolímero a partir del almidón de papaya',
+          :dia => '12/12/2015',
+          :hora => '10am',
+        }.to_json
+        url = 'visita/editar?id=' + id + '&visitante=' + visitante + '&contacto=' + contacto + '&visita=' + visita
+        test = App.new(url)
+        test.post()
+        puts test.response.body
+        expect(test.response.code).to eq(200)
+        expect(test.response.body).not_to include('error')
+        expect(test.response.body).to include('Se ha editado la visita')
+        expect(test.response.body).to include('success')
+      end
+    end
+  end
+end
+
+editar
